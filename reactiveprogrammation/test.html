@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RxJS Search Example</title>
+  </head>
+  <body>
+    <h1>Search Box with RxJS</h1>
+    <input type="text" id="search" placeholder="Type to search..." />
+    <script type="module">
+      import { fromEvent } from "https://cdn.jsdelivr.net/npm/rxjs@7.8.1/+esm";
+      import {
+        debounceTime,
+        map,
+        distinct,
+      } from "https://cdn.jsdelivr.net/npm/rxjs@7.8.1/operators/+esm";
+
+      const searchBox = document.getElementById("search");
+      const keyup$ = fromEvent(searchBox, "keyup");
+
+      keyup$
+        .pipe(
+          map((i) => i.currentTarget.value),
+          debounceTime(500),
+          distinct()
+        )
+        .subscribe(console.log);
+    </script>
+  </body>
+</html>
